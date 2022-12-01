@@ -1,0 +1,32 @@
+---
+- name: This YAML installs Tomcat packagae
+  tasks: all
+  become: true
+  
+  tasks:
+  - name: Java SHould be installed before tomat installation
+    yum:
+      name: java
+      state: installed
+    when: ansible_os_family == "Redhat"
+
+  tasks:
+  - name: Java should be installed before Tomcat installation
+    apt:
+      name: default 
+      state: present
+    when: ansible_os_family == "debian"
+
+  - name: Install the tomcat in nodes
+    get_url: 
+      url: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.84/bin/apache-tomcat-8.5.84.tar.gz
+      dest: /opt
+  - name: extract tomcat
+    unarchieve:
+      src: /opt/apache-tomcat-8.5.84.tar.gz
+      dest: /opt
+      remote_src: yes or true
+
+  
+
+  
